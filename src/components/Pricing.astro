@@ -1,0 +1,44 @@
+---
+import PricingToggle from '../islands/PricingToggle.svelte';
+
+const plans = [
+  {
+    name: 'Starter',
+    monthly: 0,
+    annual: 0,
+    features: ['1 landing page', 'Community support', 'Astro + Svelte starter'],
+  },
+  {
+    name: 'Pro',
+    monthly: 29,
+    annual: 290,
+    highlighted: true,
+    features: [
+      'Unlimited pages',
+      'Priority support',
+      'Custom domain',
+      'Remove branding',
+    ],
+  },
+  {
+    name: 'Team',
+    monthly: 79,
+    annual: 790,
+    features: ['Everything in Pro', 'Shared workspace', 'SSO'],
+  },
+];
+---
+
+<section id="pricing" class="section" data-animate-section>
+  <div class="container">
+    <div class="section-heading">
+      <p class="eyebrow">
+        // pricing
+        <span class="js-badge js-badge--live">client:visible</span>
+      </p>
+      <h2>Simple pricing that scales with you</h2>
+      <p>Start free. Upgrade when you need more.</p>
+    </div>
+    <PricingToggle plans={plans} client:visible />
+  </div>
+</section>

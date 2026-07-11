@@ -1,0 +1,52 @@
+---
+import type { Graph } from 'schema-dts';
+import { Schema } from 'astro-seo-schema';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Features from '../components/Features.astro';
+import Testimonials from '../components/Testimonials.astro';
+import Pricing from '../components/Pricing.astro';
+import Faq from '../components/Faq.astro';
+import Cta from '../components/Cta.astro';
+import Footer from '../components/Footer.astro';
+
+const siteUrl = Astro.site?.toString() ?? 'https://example.com/';
+
+const jsonLd: Graph = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': `${siteUrl}#organization`,
+      name: 'Starter, Inc.',
+      url: siteUrl,
+      logo: `${siteUrl}favicon.svg`,
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${siteUrl}#website`,
+      url: siteUrl,
+      name: 'Astro + Svelte Landing Page Starter',
+      publisher: { '@id': `${siteUrl}#organization` },
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title="Astro + Svelte Landing Page Starter"
+  description="A static-by-default Astro and Svelte starter kit for landing pages and marketing sites, with GSAP animation and selective hydration."
+>
+  <Schema slot="head" item={jsonLd} />
+  <Header />
+  <main>
+    <Hero />
+    <Features />
+    <Testimonials />
+    <Pricing />
+    <Faq />
+    <Cta />
+  </main>
+  <Footer />
+</BaseLayout>

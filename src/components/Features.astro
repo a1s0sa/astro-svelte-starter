@@ -1,0 +1,83 @@
+---
+const features = [
+  {
+    title: 'Zero-JS by default',
+    description:
+      'Every section renders as static HTML. Interactivity is opt-in per component with client:* directives.',
+  },
+  {
+    title: 'Selective hydration',
+    description:
+      'Only the FAQ accordion, pricing toggle, contact form, and animations ship JavaScript to the browser.',
+  },
+  {
+    title: 'GSAP animation pattern',
+    description:
+      'A documented onMount/onDestroy lifecycle keeps ScrollTrigger instances from leaking or duplicating.',
+  },
+  {
+    title: 'Typed structured data',
+    description:
+      'JSON-LD via astro-seo-schema and schema-dts keeps your Organization and WebSite markup type-safe.',
+  },
+  {
+    title: 'Sitemap included',
+    description:
+      '@astrojs/sitemap generates sitemap.xml automatically at build time from your site config.',
+  },
+  {
+    title: 'Optimized images',
+    description:
+      "Built on Astro's astro:assets Image component — no extra image library to configure.",
+  },
+];
+---
+
+<section id="features" class="section" data-animate-section>
+  <div class="container">
+    <div class="section-heading">
+      <p class="eyebrow">
+        // features
+        <span class="js-badge">0kb js</span>
+      </p>
+      <h2>Everything a landing page needs, nothing it doesn't</h2>
+      <p>Built to be cloned and shipped, not a demo you throw away.</p>
+    </div>
+    <div class="features-list">
+      {
+        features.map((feature) => (
+          <div class="features-list__item" data-animate-item>
+            <h3>{feature.title}</h3>
+            <p>{feature.description}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .features-list {
+    max-width: 46rem;
+    margin-inline: auto;
+  }
+
+  .features-list__item {
+    padding-block: 1.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .features-list__item:first-child {
+    padding-top: 0;
+    border-top: none;
+  }
+
+  .features-list__item h3 {
+    font-size: 1rem;
+  }
+
+  .features-list__item p {
+    color: var(--color-text-muted);
+    margin-bottom: 0;
+  }
+</style>

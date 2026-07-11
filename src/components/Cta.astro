@@ -1,0 +1,17 @@
+---
+import ContactForm from '../islands/ContactForm.svelte';
+---
+
+<section id="cta" class="section" data-animate-section>
+  <div class="container">
+    <div class="section-heading" data-animate-item>
+      <p class="eyebrow">
+        // get started
+        <span class="js-badge js-badge--live">client:visible</span>
+      </p>
+      <h2>Ready to launch your landing page?</h2>
+      <p>Leave your details and we'll follow up with setup tips.</p>
+    </div>
+    <ContactForm client:visible />
+  </div>
+</section>

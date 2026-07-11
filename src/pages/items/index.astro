@@ -1,0 +1,103 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+const entries = (await getCollection('items', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
+);
+---
+
+<BaseLayout
+  title="Items — Astro + Svelte Landing Page Starter"
+  description="Example content collection: a typed list of things and a detail page per thing — the extension point for turning this starter into a catalog, a booking site, a blog, or a portfolio."
+>
+  <Header />
+  <main>
+    <section class="section">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">
+            // items
+            <span class="js-badge">0kb js</span>
+          </p>
+          <h1>A typed collection, and a detail page per entry</h1>
+          <p>
+            This is the extension point: swap the schema and the content for
+            products, rooms, posts, or projects — the routing stays the same.
+          </p>
+        </div>
+        <div class="items-list">
+          {
+            entries.map((entry) => (
+              <a class="items-list__item" href={`/items/${entry.id}`}>
+                <span class="items-list__meta">
+                  <time datetime={entry.data.publishDate.toISOString()}>
+                    {entry.data.publishDate.toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric',
+                    })}
+                  </time>
+                  {entry.data.tags.map((tag) => (
+                    <span class="js-badge">{tag}</span>
+                  ))}
+                </span>
+                <h2>{entry.data.title}</h2>
+                <p>{entry.data.summary}</p>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .items-list {
+    max-width: 46rem;
+    margin-inline: auto;
+  }
+
+  .items-list__item {
+    display: block;
+    padding-block: 1.5rem;
+    border-top: 1px solid var(--color-border);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .items-list__item:first-child {
+    border-top: none;
+    padding-top: 0;
+  }
+
+  .items-list__item h2 {
+    font-size: 1.1rem;
+    transition: color 0.15s ease;
+  }
+
+  .items-list__item:hover h2,
+  .items-list__item:focus-visible h2 {
+    color: var(--color-primary);
+  }
+
+  .items-list__item p {
+    color: var(--color-text-muted);
+    margin-bottom: 0;
+  }
+
+  .items-list__meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    margin-bottom: 0.5rem;
+  }
+</style>

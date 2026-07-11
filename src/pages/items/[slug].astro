@@ -1,0 +1,136 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { Graph } from 'schema-dts';
+import { Schema } from 'astro-seo-schema';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('items', ({ data }) => !data.draft);
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const siteUrl = Astro.site?.toString() ?? 'https://example.com/';
+const pageUrl = `${siteUrl}items/${entry.id}`;
+
+// "items" is intentionally generic, so CreativeWork is the right type here.
+// Once a real project swaps this collection for something concrete, swap
+// this @type to match: Product for a catalog, LodgingBusiness for a room
+// or stay, Article for a blog post, and so on.
+const jsonLd: Graph = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'CreativeWork',
+      '@id': `${pageUrl}#item`,
+      name: entry.data.title,
+      description: entry.data.summary,
+      datePublished: entry.data.publishDate.toISOString(),
+      url: pageUrl,
+    },
+  ],
+};
+---
+
+<BaseLayout title={`${entry.data.title} — Astro + Svelte Landing Page Starter`} description={entry.data.summary}>
+  <Schema slot="head" item={jsonLd} />
+  <Header />
+  <main>
+    <article class="section">
+      <div class="container items-detail">
+        <a class="items-detail__back" href="/items">&larr; All items</a>
+        <p class="eyebrow">
+          // item
+          <span class="js-badge">0kb js</span>
+        </p>
+        <h1>{entry.data.title}</h1>
+        <p class="items-detail__meta">
+          <time datetime={entry.data.publishDate.toISOString()}>
+            {
+              entry.data.publishDate.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+              })
+            }
+          </time>
+          {entry.data.tags.map((tag) => <span class="js-badge">{tag}</span>)}
+        </p>
+        <div class="items-detail__body">
+          <Content />
+        </div>
+      </div>
+    </article>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .items-detail {
+    max-width: 40rem;
+    margin-inline: auto;
+  }
+
+  .items-detail__back {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    text-decoration: none;
+  }
+
+  .items-detail__back:hover,
+  .items-detail__back:focus-visible {
+    color: var(--color-primary);
+  }
+
+  .items-detail__meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    margin-bottom: 2rem;
+  }
+
+  .items-detail__body :global(h2) {
+    font-size: 1.25rem;
+    margin-top: 2em;
+  }
+
+  .items-detail__body :global(p) {
+    color: var(--color-text-muted);
+  }
+
+  .items-detail__body :global(code) {
+    font-family: var(--font-mono);
+    background: var(--color-bg-muted);
+    padding: 0.1em 0.35em;
+    border-radius: 0.25rem;
+    font-size: 0.9em;
+  }
+
+  .items-detail__body :global(pre) {
+    background: var(--color-text);
+    color: var(--color-bg);
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius);
+    overflow-x: auto;
+  }
+
+  .items-detail__body :global(pre code) {
+    background: none;
+    padding: 0;
+    color: inherit;
+  }
+</style>

@@ -1,0 +1,122 @@
+---
+import ScrollAnimations from '../islands/ScrollAnimations.svelte';
+
+const hydrationMap = [
+  { label: 'Hero entrance', directive: 'client:load' },
+  { label: 'Pricing toggle', directive: 'client:visible' },
+  { label: 'FAQ accordion', directive: 'client:visible' },
+  { label: 'Contact form', directive: 'client:visible' },
+  { label: 'Everything else', directive: '0kb js' },
+];
+---
+
+<section class="hero">
+  <div class="container hero__inner">
+    <div class="hero__copy">
+      <p class="eyebrow" data-animate-hero>
+        // astro + svelte starter
+        <span class="js-badge js-badge--live">client:load</span>
+      </p>
+      <h1 data-animate-hero>Static by default. Interactive by exception.</h1>
+      <p class="hero__lede" data-animate-hero>
+        Every section on this page renders to plain HTML at build time. The
+        four islands below are the only parts that ship JavaScript to the
+        browser — and the map on the right is the real list, not a claim.
+      </p>
+      <div class="hero__actions" data-animate-hero>
+        <a class="btn btn--primary" href="#cta">Clone the starter</a>
+        <a class="btn btn--secondary" href="#features">See features</a>
+      </div>
+    </div>
+    <div class="hero__panel" data-animate-hero>
+      <p class="hero__panel-title">hydration.map</p>
+      <ul class="hero__panel-rows">
+        {
+          hydrationMap.map((row) => (
+            <li>
+              <span>{row.label}</span>
+              <code class:list={['js-badge', row.directive !== '0kb js' && 'js-badge--live']}>
+                {row.directive}
+              </code>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<ScrollAnimations client:load />
+
+<style>
+  .hero {
+    padding-block: clamp(3rem, 8vw, 6rem);
+  }
+
+  .hero__inner {
+    display: grid;
+    gap: 2.5rem;
+    align-items: center;
+  }
+
+  .hero__copy h1 {
+    font-size: clamp(2rem, 5vw, 3.25rem);
+  }
+
+  .hero__lede {
+    color: var(--color-text-muted);
+    font-size: 1.05rem;
+    max-width: 34rem;
+  }
+
+  .hero__actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .hero__panel {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background: var(--color-bg-muted);
+    overflow: hidden;
+  }
+
+  .hero__panel-title {
+    margin: 0;
+    padding: 0.85rem 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .hero__panel-rows {
+    list-style: none;
+    margin: 0;
+    padding: 0.25rem 1.25rem 0.75rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero__panel-rows li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 0.7rem;
+    border-top: 1px solid var(--color-border);
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+  }
+
+  .hero__panel-rows li:first-child {
+    border-top: none;
+  }
+
+  @media (min-width: 900px) {
+    .hero__inner {
+      grid-template-columns: 1.1fr 1fr;
+    }
+  }
+</style>

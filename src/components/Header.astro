@@ -1,0 +1,76 @@
+---
+const navLinks = [
+  { href: '/#features', label: 'Features' },
+  { href: '/#testimonials', label: 'Testimonials' },
+  { href: '/#pricing', label: 'Pricing' },
+  { href: '/#faq', label: 'FAQ' },
+  { href: '/items', label: 'Items' },
+];
+---
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="site-header__logo" href="/"><span class="site-header__logo-mark">$</span> starter</a>
+    <nav class="site-header__nav" aria-label="Primary">
+      {navLinks.map((link) => <a href={link.href}>{link.label}</a>)}
+    </nav>
+    <a class="btn btn--primary site-header__cta" href="/#cta">Get started</a>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--color-border);
+    position: sticky;
+    top: 0;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 50;
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-block: 1rem;
+  }
+
+  .site-header__logo {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 1.05rem;
+    text-decoration: none;
+    color: var(--color-text);
+  }
+
+  .site-header__logo-mark {
+    color: var(--color-primary);
+  }
+
+  .site-header__nav {
+    display: none;
+    gap: 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  .site-header__nav a {
+    text-decoration: none;
+    color: var(--color-text-muted);
+  }
+
+  .site-header__nav a:hover {
+    color: var(--color-text);
+  }
+
+  @media (min-width: 768px) {
+    .site-header__nav {
+      display: flex;
+    }
+  }
+
+  .site-header__cta {
+    padding: 0.5rem 1.1rem;
+    font-size: 0.875rem;
+  }
+</style>

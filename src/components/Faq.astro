@@ -1,0 +1,39 @@
+---
+import FaqAccordion from '../islands/FaqAccordion.svelte';
+
+const items = [
+  {
+    question: 'Does this starter ship any JavaScript by default?',
+    answer:
+      'No. Every section is a static Astro component. JavaScript is only sent for the handful of islands that need interactivity — this accordion, the pricing toggle, the contact form, and the scroll animations.',
+  },
+  {
+    question: 'Why Svelte instead of React or Vue?',
+    answer:
+      "Svelte components compile away, so hydrated islands stay small. It's also a natural fit for local component state, which is all a landing page usually needs.",
+  },
+  {
+    question: 'How do I change the production domain for the sitemap?',
+    answer:
+      "Update the `site` value in astro.config.mjs. @astrojs/sitemap reads it to build absolute URLs for sitemap.xml.",
+  },
+  {
+    question: 'Where do I add global state if I need it later?',
+    answer:
+      "This starter intentionally ships without one. If a future page genuinely needs cross-island state, add nanostores then — don't reach for it preemptively.",
+  },
+];
+---
+
+<section id="faq" class="section section--muted" data-animate-section>
+  <div class="container">
+    <div class="section-heading">
+      <p class="eyebrow">
+        // faq
+        <span class="js-badge js-badge--live">client:visible</span>
+      </p>
+      <h2>Frequently asked questions</h2>
+    </div>
+    <FaqAccordion items={items} client:visible />
+  </div>
+</section>
